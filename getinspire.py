@@ -87,7 +87,7 @@ def get_chars(x,keys=['chars[1]','chars[2]','chars[3]','chars']):
 
 def extract_cites(tex):
     """
-    extract the (full arguments, unique arguments) of the \cite TeX Macro in `tex`
+    extract the ({full arguments:\cites{full arguments}}, unique arguments) of the \cite TeX Macro in `tex`
     """
     w = LatexWalker(tex)
     (l, pos, len_) = w.get_latex_nodes(pos=0)
@@ -113,9 +113,10 @@ def extract_cites(tex):
 
 
     cs=[get_chars(x).get('chars') for x in c ]
+    lv=[x.latex_verbatim() for x in c]    
     #unique cites
     ts=set( itertools.chain( *[ [s.strip() for s in re.split('\s*,\s*',c)] for c in cs] ) )
-    return cs,list(ts)
+    return dict(zip(cs,lv)),list(ts)
 
 def get_cite_source(ts):
     '''
@@ -168,31 +169,34 @@ def add_bibtex_to_json(ltk,UPDATE=False):
         time.sleep(sleep)
     return ltk
 
-def TeX_replace(tex,cs,ltk):
+def TeX_replace(tex,cid,ltk):
     """
     Replace each \cite{ arguments } in 
-    `cs` → list 
+    `cid` → dict # {'argument':'\cite{argument}',...} 
     with inspirehep texkey froom
     `ltk` → json object
     along the TeX document:
     `tex` → str
     """
     #replace in file each \cite{argument} with new \cite{texkey}
-    for c in cs:
+    for c in cid.keys():
         l=[s.strip() for s in c.split(',') ]
         ll=[ [ d.get('texkey') for d in ltk if s==d.get('external_id')] for s in l] 
         dd={c:','.join( itertools.chain( *ll  ) )}
-        tex=tex.replace( r"\cite{%s}" %c , r"\cite{%s}" %dd[c] )
+        cmd=re.search(r'^(\\.+)\{',cid[c])
+        if cmd:
+            cmd=cmd.groups()[0]
+        tex=tex.replace( cid[c] , r"%s{%s}" %(cmd,dd[c] ))
     return tex
 
 def extract_bibtex(ltk):
     return '\n'.join( [d.get('bibtex') for d  in ltk if d.get('bibtex') ])
 
 def getinspire(tex,UPDATE=False):
-    cs,ts=extract_cites(tex)
+    cid,ts=extract_cites(tex)
     ltk=get_cite_source(ts)
     ltk=add_bibtex_to_json(ltk,UPDATE=UPDATE)
-    newtex=TeX_replace(tex,cs,ltk)
+    newtex=TeX_replace(tex,cid,ltk)
     bibtex=extract_bibtex(ltk)
     return newtex,bibtex
 
