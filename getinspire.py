@@ -173,7 +173,7 @@ def TeX_replace(tex,cid,ltk):
     """
     Replace each \cite{ arguments } in 
     `cid` → dict # {'argument':'\cite{argument}',...} 
-    with inspirehep texkey froom
+    with inspirehep texkey from
     `ltk` → json object
     along the TeX document:
     `tex` → str
@@ -200,5 +200,12 @@ def getinspire(tex,UPDATE=False):
     bibtex=extract_bibtex(ltk)
     return newtex,bibtex
 
+def tests():
+    tex='this is \cite[3]{2204.03796, Kolb:1990vq}'
+    newtex,bibtex=getinspire.getinspire(tex)
+    assert newtex=='this is \\cite[3]{Lu:2022bgw,Kolb:1990vq}'
+
+
 if __name__=='__main__':
     newtex,bibtex=getinspire(tex)
+    tests()
