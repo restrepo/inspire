@@ -17,7 +17,9 @@ _excluded_keys=['get_author','author','sample_profile','schema_profile','to_dict
                 'sample_work', 'schema_work', 'work',
                 'institutions_list', 'literature_size','not_collaboration','q', 'q_inst', 'size', 
                 'size_inst', 'work_list','cache','cacheco','institution_ids',
-                'ld','inst_ids','size_exps','authors_size']
+                'ld','inst_ids','size_exps','authors_size',
+                'sample_experiment','schema_experiment','sample_experimental_author','schema_experimental_author',
+                'experiment']
 
 class empty_json:
     status_code=0
