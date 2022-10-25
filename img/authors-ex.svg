@@ -338,9 +338,9 @@
      inkscape:window-height="1031"
      id="namedview369"
      showgrid="false"
-     inkscape:zoom="1.6926369"
-     inkscape:cx="669.18186"
-     inkscape:cy="313.50331"
+     inkscape:zoom="1.196875"
+     inkscape:cx="480"
+     inkscape:cy="312.78843"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -1309,14 +1309,6 @@
      d="m 286.8819,213.13124 h 75.90552 v 35.87401 H 286.8819 Z"
      fill-rule="evenodd"
      id="path1441" />
-  <path
-     stroke="#595959"
-     stroke-width="1"
-     stroke-linejoin="round"
-     stroke-linecap="butt"
-     d="m 66.68998,471.14361 h 75.90552 v 35.87401 H 66.68998 Z"
-     fill-rule="evenodd"
-     id="path107-9" />
   <path
      fill="#000000"
      fill-opacity="0"
